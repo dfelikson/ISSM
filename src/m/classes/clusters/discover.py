@@ -26,14 +26,13 @@ class discover(object):
     def __init__(self, *args):  # {{{
         self.name = oshostname()
         self.login = ''
-        self.modules = ['comp/intel/20.0.0.166', 'mpi/sgi-mpt/2.17', 'cmake/3.17.0']
-        self.numnodes = 20
-        self.cpuspernode = 8
+        self.modules = ['comp/intel/2021.4.0', 'mpi/impi/2021.4.0']
+        self.numnodes = 1
+        self.cpuspernode = 46
         self.port = 0
-        self.queue = 'general'
-        self.time = 12 * 60 * 60
-        self.processor = 'west'
-        self.srcpath = ''
+        self.queue = 'allnccs'
+        self.time = 1 * 60 * 60
+        self.processor = 'cas'
         self.codepath = ''
         self.executionpath = ''
         self.grouplist = ''
@@ -69,7 +68,6 @@ class discover(object):
         s += '    queue: {}\n'.format(self.queue)
         s += '    time: {}\n'.format(self.time)
         s += '    processor: {}\n'.format(self.processor)
-        s += '    srcpath: {}\n'.format(self.srcpath)
         s += '    codepath: {}\n'.format(self.codepath)
         s += '    executionpath: {}\n'.format(self.executionpath)
         s += '    grouplist: {}\n'.format(self.grouplist)
@@ -97,8 +95,11 @@ class discover(object):
         elif self.processor == 'hasw':
             if self.cpuspernode > 28 or self.cpuspernode < 1:
                 md = md.checkmessage('cpuspernode should be between 1 and 28 for \'hasw\' processors in hyperthreading mode')
+        elif self.processor == 'cas':
+            if self.cpuspernode > 46 or self.cpuspernode < 1:
+                md = md.checkmessage('cpuspernode should be between 1 and 46 for \'cas\' processors in hyperthreading mode')
         else:
-            md = md.checkmessage('unknown processor type, should be \'sand\' or \'hasw\'')
+            md = md.checkmessage('unknown processor type, should be \'sand\' or \'hasw\' or \'cas\'')
 
         # Miscellaneous
         if not self.login:

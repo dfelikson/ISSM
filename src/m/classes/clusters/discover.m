@@ -10,13 +10,13 @@ classdef discover
 		% {{{
 		name=oshostname();
 		login='';
-		modules={'comp/intel/20.0.0.166' 'mpi/sgi-mpt/2.17' 'cmake/3.17.0'};
-		numnodes=20;
-		cpuspernode=8;
+		modules={'comp/intel/2021.4.0', 'mpi/impi/2021.4.0'};
+		numnodes=1;
+		cpuspernode=46;
 		port=0;
-		queue='general';
-		time=12*60*60;
-		processor='west';
+		queue='allnccs';
+		time=1*60*60;
+		processor='cas';
 		codepath='';
 		executionpath='';
 		grouplist='';
@@ -50,7 +50,6 @@ classdef discover
 			disp(sprintf('    queue: %s',cluster.queue));
 			disp(sprintf('    time: %i',cluster.time));
 			disp(sprintf('    processor: %s',cluster.processor));
-			disp(sprintf('    srcpath: %s',cluster.srcpath));
 			disp(sprintf('    codepath: %s',cluster.codepath));
 			disp(sprintf('    executionpath: %s',cluster.executionpath));
 			disp(sprintf('    grouplist: %s',cluster.grouplist));
@@ -83,8 +82,12 @@ classdef discover
 				if ((cluster.cpuspernode>28 ) | (cluster.cpuspernode<1)),
 					md = checkmessage(md,'cpuspernode should be between 1 and 28 for ''hasw'' processors');
 				end
+			elseif strcmpi(cluster.processor,'cas'),
+				if ((cluster.cpuspernode>46 ) | (cluster.cpuspernode<1)),
+					md = checkmessage(md,'cpuspernode should be between 1 and 46 for ''cas'' processors');
+				end
 			else
-				md = checkmessage(md,'unknown processor type, should be ''sand'' or ''hasw'' ');
+				md = checkmessage(md,'unknown processor type, should be ''sand'' or ''hasw'' or ''cas''');
 			end
 
 			%Miscellaneous
