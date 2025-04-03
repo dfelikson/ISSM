@@ -32,9 +32,9 @@ def issmscpin(host, login, port, path, packages):
         filelist = [os.path.join(directory, x) for x in packages]
         fileliststr = ' '.join([str(x) for x in filelist])
         if port:
-            subprocess.call('scp -P {} {}@localhost:"{}" {}'.format(port, login, fileliststr, os.getcwd()), shell=True)
+            subprocess.call('scp -OT -P {} {}@localhost:"{}" {}'.format(port, login, fileliststr, os.getcwd()), shell=True)
         else:
-            subprocess.call('scp {}@{}:"{}" {}'.format(login, host, fileliststr, os.getcwd()), shell=True)
+            subprocess.call('scp -OT {}@{}:"{}" {}'.format(login, host, fileliststr, os.getcwd()), shell=True)
         # Check scp worked
         for package in packages:
             if not os.path.exists(os.path.join('.', package)):

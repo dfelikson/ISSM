@@ -31,9 +31,9 @@ else
 	end
 
 	if port,
-		eval(['!scp -P ' num2str(port) ' ' login '@localhost:' path '/' fileliststr ' ./']);
+		eval(['!scp -OT -P ' num2str(port) ' ' login '@localhost:' path '/' fileliststr ' ./']);
 	else
-		eval(['!scp ' login '@' host ':' path '/' fileliststr ' ./']);
+		eval(['!scp -OT ' login '@' host ':' path '/' fileliststr ' ./']);
 	end
 
 	%check scp worked
